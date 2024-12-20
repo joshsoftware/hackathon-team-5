@@ -1,7 +1,6 @@
 {
   "name": "hackathon-team-5",
   "version": "1.0.0",
-  "description": "Web Error Handling and Prioritisation",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +8,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
     "@types/node": "^22.10.2",
     "puppeteer": "^23.11.1",

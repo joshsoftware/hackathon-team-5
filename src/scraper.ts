@@ -4,13 +4,16 @@ const captureScreenshotAndLogs = async (url: string) => {
   const browser = await puppeteer.launch({ headless: true });
   const page: Page = await browser.newPage();
 
+
   page.on('console', (msg) => {
     const msgText = msg.text();
     console.log('Console Log:', msgText);
   });
 
   try {
+
     await page.goto(url, { waitUntil: 'domcontentloaded' });
+
 
     const screenshotPath = 'screenshot.png';
     await page.screenshot({ path: screenshotPath });
@@ -22,5 +25,6 @@ const captureScreenshotAndLogs = async (url: string) => {
   }
 };
 
-const targetUrl = 'https://www.thebeardstruggle.com';
+
+const targetUrl = 'https://www.thebeardstruggle.com/';
 captureScreenshotAndLogs(targetUrl);
