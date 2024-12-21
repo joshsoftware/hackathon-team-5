@@ -1,0 +1,13 @@
+/ruby/Hackathon/.config
+/ruby/Hackathon/coverage/
+/ruby/Hackathon/spec/reports/
+/ruby/Hackathon/spec/examples.txt
+/ruby/Hackathon/test/tmp/
+/ruby/Hackathon/test/version_tmp/
+/ruby/Hackathon/tmp/
+
+# Ignore Byebug command history file.
+/ruby/Hackathon/.byebug_history
+/ruby/Hackathon/.bundle/
+/ruby/Hackathon/vendor/bundle
+/ruby/Hackathon/lib/bundler/man/
