@@ -1,11 +1,10 @@
 import { linkSchema } from "@/validators/LinkValidator";
-import { error } from "console";
 import puppeteer, { Page } from 'puppeteer';
 
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { url , action_type } = linkSchema.parse(body);
+        const { url } = linkSchema.parse(body);
 
         const browser = await puppeteer.launch({ headless: false });
         const page: Page = await browser.newPage();
@@ -50,56 +49,12 @@ export async function POST(req: Request) {
         });
 
         try {
-
-            await page.goto(url, { waitUntil: 'domcontentloaded' });
-
-            switch(action_type) {
-                case 'listing': {
-                    const searchInputs = await page.$$('input[type="search"]');
-                    for (const input of searchInputs) {
-                        await input.click();
-                        await input.type('beard');
-                        await page.keyboard.press('Enter');
-                    }
-                    await page.waitForSelector('div.product.card');
-                    break;
-                }
-
-                case 'add_to_cart': {
-                    const addToCartButtons = await page.$$('button.add_to_cart');
-                    if(addToCartButtons.length>0 ) {
-                        const randomIndex = Math.floor(Math.random() * addToCartButtons.length);
-                        await addToCartButtons[randomIndex].click();
-                    }
-                    break;
-                }
-                case 'check_out': {
-                    const checkoutButton = await page.$('button.checkout');
-                    if (checkoutButton) {
-                        await checkoutButton.click();
-                    }
-                    break;
-                }
-
-                case 'support': {
-                    const supportLink = await page.$('a.support');
-                    if (supportLink) {
-                        await supportLink.click();
-                    }
-                    break;
-                }
-
+            // Navigate to the search results page directly
             await page.goto(`${url}/search-results?q=beard`, { waitUntil: 'domcontentloaded' });
 
+            // Wait for search results to load
+            await page.waitForSelector('div.product_card');
 
-                default: {
-                    console.error("Invalid action type provided: ", action_type);
-                    break;
-                }
-
-            }
-
-          
             // Pick all divs with product_card classname and click on one at random
             const productCards = await page.$$('div.product_card');
             if (productCards.length > 0) {
