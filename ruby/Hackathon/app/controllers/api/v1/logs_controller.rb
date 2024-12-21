@@ -6,7 +6,6 @@ module Api
       def index
         # Fetch all actions and include their associated urls and issues
         actions = Action.includes(urls: :issues).all
-
         # Create the desired structure for the response
         result = actions.group_by(&:domain).map do |domain, actions_in_domain|
           {
@@ -16,11 +15,13 @@ module Api
                 {
                   "action_type" => action.flow,  # action.flow will give you 'check_out' or 'listing'
                   "url" => url.link,  # Assuming 'link' is the field containing the URL
-                  "console_error" => url.issues&.where(error_type: 'console').first&.issue,
-                  "network_error" => url.issues&.where(error_type: 'network').first&.issue
+                  "console_errors" => url.issues&.where(error_type: 'console').first&.issue,
+                  "network_errors" => url.issues&.where(error_type: 'network').first&.issue,
+                  "explanation" => action.explanation
                 }
               end
             end
+
           }
         end
 
@@ -62,9 +63,8 @@ module Api
       end
 
       def create_issue_item(hash, action_uid, url_uid)
-        byebug
-        Issue.create(action_uid: action_uid, url_uid: url_uid, error_type: "console", issue: hash["console_error"] )
-        Issue.create(action_uid: action_uid, url_uid: url_uid, error_type: "network", issue: hash["network_error"] )
+        Issue.create(action_uid: action_uid, url_uid: url_uid, error_type: "console", issue: hash.to_h["console_errors"] )
+        Issue.create(action_uid: action_uid, url_uid: url_uid, error_type: "network", issue: hash.to_h["network_errors"] )
       end
 
       def logs_params
