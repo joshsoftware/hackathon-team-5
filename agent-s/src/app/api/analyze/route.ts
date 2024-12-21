@@ -46,7 +46,7 @@ export async function POST(req: Request) {
             }
 
             // Wait for search results to load
-            await page.waitForSelector('div.product_card');
+            await page.waitForSelector('div.product_card', { timeout: 5000 });
 
             // Pick all divs with product_card classname and click on one at random
             const productCards = await page.$$('div.product_card');
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
         } catch (error) {
             console.error('Error during page processing:', error);
         } finally {
-            // await browser.close();
+            await browser.close();
         }
 
         console.log('Network Logs:', networkLogs);
@@ -70,4 +70,5 @@ export async function POST(req: Request) {
     } catch (e) {
         console.log(e);
     }
+    
 }

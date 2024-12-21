@@ -1,6 +1,7 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+
+import ValidateForm from "@/components/ValidateForm"
 import Link from "next/link"
+
 
 export default function LandingPage() {
   return (
@@ -17,15 +18,7 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
-                <form className="flex space-x-2">
-                  <Input
-                    className="flex-1"
-                    placeholder="Enter your website URL"
-                    type="url"
-                    required
-                  />
-                  <Button type="submit">Analyze</Button>
-                </form>
+               <ValidateForm/>
               </div>
             </div>
           </div>
