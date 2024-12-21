@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import "./globals.css";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import Navbar from "@/components/Navbar";
+import TanstackQueryProvider from "@/components/TanstackQueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,6 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <TanstackQueryProvider>
       <ThemeProvider
         attribute="class"
         defaultTheme="dark"
@@ -41,6 +43,7 @@ export default function RootLayout({
           </div>
         </body>
       </ThemeProvider>
+      </TanstackQueryProvider>
     </html>
   );
 }

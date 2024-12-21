@@ -185,6 +185,7 @@ export async function POST(req: Request) {
             }
         } finally {
             await browser.close();
+            await browser.close();
         }
 
         // Filter out empty error arrays for cleaner output
