@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2024_12_21_035239) do
   create_table "actions", force: :cascade do |t|
     t.uuid "uid", default: -> { "gen_random_uuid()" }, null: false
     t.integer "flow"
+    t.string "domain"
+    t.string "explanation"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["uid"], name: "index_actions_on_uid", unique: true
@@ -28,7 +30,7 @@ ActiveRecord::Schema.define(version: 2024_12_21_035239) do
     t.uuid "uid", default: -> { "gen_random_uuid()" }, null: false
     t.uuid "url_uid"
     t.uuid "action_uid"
-    t.string "issue", default: [], array: true
+    t.jsonb "issue", default: [], array: true
     t.integer "error_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

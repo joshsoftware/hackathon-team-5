@@ -6,7 +6,7 @@ class CreateIssues < ActiveRecord::Migration[6.1]
       t.uuid :uid, null: false, default: -> { 'gen_random_uuid()' }, index: { unique: true }
       t.uuid :url_uid
       t.uuid :action_uid
-      t.string :issue, array: true, default: []
+      t.jsonb :issue, array: true, default: []
       t.integer :error_type
       t.timestamps
     end
