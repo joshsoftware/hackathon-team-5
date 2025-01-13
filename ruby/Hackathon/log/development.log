@@ -1,0 +1,45 @@
+  [1m[35m (68.4ms)[0m  [1m[35mCREATE DATABASE "Hackathon_development" ENCODING = 'unicode'[0m
+  [1m[35m (34.3ms)[0m  [1m[35mCREATE DATABASE "Hackathon_test" ENCODING = 'unicode'[0m
+  [1m[35m (8.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (5.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6130698684144503805)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateActions (20241221035205)
+  [1m[35mSQL (6.5ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "pgcrypto"[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "actions" ("id" bigserial primary key, "uid" uuid DEFAULT gen_random_uuid() NOT NULL, "flow" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_actions_on_uid" ON "actions" ("uid")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20241221035205"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateUrls (20241221035233)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (5.0ms)[0m  [1m[35mCREATE TABLE "urls" ("id" bigserial primary key, "uid" uuid DEFAULT gen_random_uuid() NOT NULL, "action_uid" uuid, "link" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_urls_on_uid" ON "urls" ("uid")[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "urls" ADD CONSTRAINT "fk_rails_465bd8c178"
+FOREIGN KEY ("action_uid")
+  REFERENCES "actions" ("uid")
+[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20241221035233"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateIssues (20241221035239)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE TABLE "issues" ("id" bigserial primary key, "uid" uuid DEFAULT gen_random_uuid() NOT NULL, "url_uid" uuid, "action_uid" uuid, "issue" character varying[] DEFAULT '{}', "error_type" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_issues_on_uid" ON "issues" ("uid")[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "issues" ADD CONSTRAINT "fk_rails_83247b8231"
+FOREIGN KEY ("action_uid")
+  REFERENCES "actions" ("uid")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "issues" ADD CONSTRAINT "fk_rails_d826f2b331"
+FOREIGN KEY ("url_uid")
+  REFERENCES "urls" ("uid")
+[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20241221035239"]]
+  [1m[36mTRANSACTION (2.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2024-12-21 04:10:27.478425"], ["updated_at", "2024-12-21 04:10:27.478425"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(6130698684144503805)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mAction Load (0.1ms)[0m  [1m[34mSELECT "actions".* FROM "actions" ORDER BY "actions"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mAction Load (0.5ms)[0m  [1m[34mSELECT "actions".* FROM "actions" ORDER BY "actions"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
