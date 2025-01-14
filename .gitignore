@@ -11,3 +11,6 @@
 /ruby/Hackathon/.bundle/
 /ruby/Hackathon/vendor/bundle
 /ruby/Hackathon/lib/bundler/man/
+/node_modules
+package.json
+package.lock.json

@@ -195,8 +195,10 @@ export async function POST(req: Request) {
             network_errors: log.network_errors.length ? log.network_errors : []
         }));
 
+        console.log(JSON.stringify({logStructure}, null, 2));
+
         const chatResponse = await Ollama.chat({
-            model: 'llama3.2',
+            model: 'llama3.2:1b',
             messages: [
                 {
                     role: 'system',
@@ -209,6 +211,8 @@ export async function POST(req: Request) {
             ]
         });
 
+        console.log({chatResponse});
+
 
         // return new Response(JSON.stringify(chatResponse.message.content, null, 2), {
         //     headers: { 'Content-Type': 'application/json' }
@@ -216,34 +220,34 @@ export async function POST(req: Request) {
 
         // send to rails api
 
-        // const response = await axios.post(process.env.API_ENDPOINT!, {
-        //     domain: logStructure.domain,
-        //     logs: logStructure.logs,
-        //     explanation: chatResponse.message.content
-        // })
-
-        const response = {
+        const response = await axios.post(process.env.API_ENDPOINT!, {
             domain: logStructure.domain,
             logs: logStructure.logs,
             explanation: chatResponse.message.content
+        });
+
+        console.log({response});
+
+        if (response.status === 200) {
+            return new Response(JSON.stringify(response.data), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' }
+            });
         }
 
-        // if(response.status === 200){
-        return new Response(JSON.stringify(response), {
-            status: 200
-        })
-        // }
+        // Add default response for non-200 status
+        return new Response(JSON.stringify({
+            error: 'API request failed',
+            status: response.status
+        }), {
+            status: response.status,
+            headers: { 'Content-Type': 'application/json' }
+        });
+
 
 
     } catch (e) {
-        const errorResponse = {
-            // @ts-ignore no-types
-            error: e.message,
-            timestamp: new Date().toISOString(),
-            // @ts-ignore no-types
-            logs: logStructure.logs
-        };
-        return new Response(JSON.stringify(errorResponse, null, 2), {
+        return new Response(JSON.stringify(e, null, 2), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }
         });
