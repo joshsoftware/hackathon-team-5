@@ -22,7 +22,7 @@ Responsible for giving the solutions of the errors passed to it.
 ### Frontend (Next.js)
 - Node.js 18+
 - npm or yarn
-- [Ollama](https://ollama.ai/) installed locally
+- [Ollama]([https://ollama.ai/](https://ollama.com/)) installed locally
 
 ### Backend (Rails)
 - Ruby 3.0.0
@@ -40,7 +40,8 @@ Responsible for giving the solutions of the errors passed to it.
 
 1. Install ollama following 
 
-https://hub.docker.com/r/ollama/ollama
+- https://hub.docker.com/r/ollama/ollama
+- we are using `llama3.2:1b` in your code base 
 
 2. For nextjs 
 
