@@ -47,5 +47,5 @@ Docker (optional)
 4. Start the Rails server:
         rails s
         
-        Alternatively, using Docker:
+   Alternatively, using Docker:
             using docker
