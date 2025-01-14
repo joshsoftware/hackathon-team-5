@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    container_name: Hackathon_TEAM_5
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: redis://redisdb:6379/0
+    volumes:
+      - .:/app
+      - ./bundle_cache:/bundle
+    ports:
+      - 3005:3000
+    depends_on:
+      - redisdb
+
+  redisdb:
+    image: redis:6.2-alpine
+    container_name: redisdb
+    command: redis-server
+    volumes:
+      - ./redis_data:/data
+
+  sidekiq:
+    build: .
+    volumes:
+    - .:/app
+    environment:
+      REDIS_URL: redis://redisdb:6379/0
+    depends_on:
+      - redisdb
+    command: bundle exec sidekiq
