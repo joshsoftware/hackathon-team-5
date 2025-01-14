@@ -15,37 +15,35 @@ It returns the webpage wise data containing the errors along with their solution
 # LLM
 Responsible for giving the solutions of the errors passed to it.
 
-# Agent-S: AI-Powered Web Analysis Tool
-
-A full-stack application that analyzes websites for potential issues using AI. The project consists of a Next.js frontend and a Ruby on Rails API backend.
-
-
+#Setup
 
 ## System Requirements
 
 ### Frontend (Next.js)
-Node.js 18+
-npm or yarn
-[Ollama](https://ollama.ai/) installed locally
+- Node.js 18+
+- npm or yarn
+- [Ollama](https://ollama.ai/) installed locally
 
 ### Backend (Rails)
-Ruby 3.0.0
-PostgreSQL
-Docker (optional)
+- Ruby 3.0.0
+- PostgreSQL
+- Docker (optional)
 
 ## Setup Instructions
 
 ### Backend Setup (Rails)
 
-1. Navigate to the Rails project directory:
-        cd ruby/Hackathon
-2. Install dependencies:
-        bash
-        bundle install
-        bash
-        rails db:generate db:migrate
-4. Start the Rails server:
-        rails s
-        
-   Alternatively, using Docker:
-            using docker
+1. For backed we have a docker setup, run docker-compose up --build
+  once it is successfully you can access rails server on localhost:3005
+
+### Frontend setup ( nextjs and ollama )
+
+1. Install ollama following 
+
+https://hub.docker.com/r/ollama/ollama
+
+2. For nextjs 
+
+- Make sure you have nodejs installed on your system with latest lts tag
+- Install dependencies for nextjs using `npm install`
+- Once Installed start nextjs server using `npm run dev`
